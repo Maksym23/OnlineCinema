@@ -1,6 +1,11 @@
 import type { GenreKey, Lang, Media, MediaRow, MediaType } from '../types'
 import { TYPE_TO_SLUG } from '../lib/catalog'
+import { normTitle } from '../lib/format'
 
+/**
+ * Клієнт TMDB (https://developer.themoviedb.org). Вмикається, якщо задано VITE_TMDB_KEY.
+ * Це продукт TMDB — «This product uses the TMDB API but is not endorsed or certified by TMDB».
+ */
 const KEY = import.meta.env.VITE_TMDB_KEY as string | undefined
 const BASE = 'https://api.themoviedb.org/3'
 const IMG = 'https://image.tmdb.org/t/p'
@@ -9,20 +14,20 @@ export const tmdbEnabled = Boolean(KEY)
 
 interface RawItem {
   id: number
-  media_type: string
-  title: string
-  name: string
-  original_title: string
-  original_name: string
-  release_date: string
-  first_air_date: string
-  vote_average: number
-  overview: string
-  poster_path: string | null
-  backdrop_path: string | null
-  genre_ids: number[]
-  genres: { id: number; name: string }[]
-  runtime: number
+  media_type?: string
+  title?: string
+  name?: string
+  original_title?: string
+  original_name?: string
+  release_date?: string
+  first_air_date?: string
+  vote_average?: number
+  overview?: string
+  poster_path?: string | null
+  backdrop_path?: string | null
+  genre_ids?: number[]
+  genres?: { id: number; name: string }[]
+  runtime?: number
   episode_run_time?: number[]
 }
 
@@ -238,4 +243,16 @@ export async function mediaById(id: string, lang: Lang): Promise<Media | null> {
   const kind = m[1] as 'movie' | 'tv'
   const raw = await get<RawItem>(`/${kind}/${m[2]}`, lang)
   return toMedia(raw, kind)
+}
+
+/** Постер за точною назвою (для демо-каталогу, коли є ключ TMDB). Повертає null, якщо збігу немає. */
+export async function findPoster(title: string, kind: 'movie' | 'tv'): Promise<string | null> {
+  const data = await get<RawList>(`/search/${kind}`, 'en', { query: title, include_adult: 'false' })
+  const want = normTitle(title)
+  const hit = data.results.find(
+    (r) =>
+      r.poster_path &&
+      [r.title, r.name, r.original_title, r.original_name].some((n) => n && normTitle(n) === want),
+  )
+  return hit?.poster_path ? `${IMG}/w342${hit.poster_path}` : null
 }

@@ -57,6 +57,12 @@ export const ChevronLeftIcon = (p: P) => (
     <path d="m15 6-6 6 6 6" />
   </Svg>
 )
+export const BellIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7Z" />
+    <path d="M10 20a2 2 0 0 0 4 0" />
+  </Svg>
+)
 export const ChevronDownIcon = (p: P) => (
   <Svg {...p}>
     <path d="m6 9 6 6 6-6" />
@@ -225,5 +231,62 @@ export const GoogleIcon = (p: P) => (
     <path d="M12 21c2.400 0 4.500-.8 5.900-2.200L15 16.600c-.8.500-1.800.9-3 .9-2.300 0-4.300-1.600-5-3.700H4v2.300A9 9 0 0 0 12 21z" fill="currentColor" stroke="none" opacity=".8" />
     <path d="M7 13.800a5.400 5.400 0 0 1 0-3.600V7.900H4a9 9 0 0 0 0 8.200l3-2.300z" fill="currentColor" stroke="none" opacity=".6" />
     <path d="M12 6.600c1.300 0 2.500.5 3.400 1.300l2.600-2.500A9 9 0 0 0 4 7.900l3 2.300c.7-2.100 2.700-3.600 5-3.600z" fill="currentColor" stroke="none" opacity=".9" />
+  </Svg>
+)
+
+export const GridIcon = (p: P) => (
+  <Svg {...p}>
+    <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+    <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+    <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+    <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+  </Svg>
+)
+export const UsersIcon = (p: P) => (
+  <Svg {...p}>
+    <circle cx="9" cy="8" r="3.2" />
+    <path d="M3 20c.4-3.3 2.8-5 6-5s5.6 1.7 6 5" />
+    <path d="M16 5.2a3 3 0 0 1 0 5.6M18.5 15.3c1.4.6 2.3 2 2.5 4.2" />
+  </Svg>
+)
+export const CardIcon = (p: P) => (
+  <Svg {...p}>
+    <rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+    <path d="M3 10h18M7 15h3" />
+  </Svg>
+)
+export const FilmIcon = (p: P) => (
+  <Svg {...p}>
+    <rect x="4" y="3.5" width="16" height="17" rx="2.5" />
+    <path d="M8 3.5v17M16 3.5v17M4 9h4M16 9h4M4 15h4M16 15h4" />
+  </Svg>
+)
+export const WalletIcon = (p: P) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M14.8 9.2c-.5-.8-1.5-1.2-2.8-1.2-1.6 0-2.7.8-2.7 2s1 1.7 2.7 2 2.7.8 2.7 2-1.1 2-2.7 2c-1.3 0-2.3-.4-2.8-1.2M12 6.5V8m0 8v1.5" />
+  </Svg>
+)
+export const SettingsIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
+    <circle cx="16" cy="7" r="2" />
+    <circle cx="8" cy="17" r="2" />
+  </Svg>
+)
+export const LogoutIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M14 4h3.5A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5H14" />
+    <path d="M4 12h10M7.5 8.5 4 12l3.5 3.5" />
+  </Svg>
+)
+export const PlusIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Svg>
+)
+export const FlameIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M12 3c.5 3-1.5 4.5-3 6.3C7.6 11 7 12.4 7 14a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5-.2 1.3-.9 2-1.7 2.2C13.6 9 13.2 5.5 12 3z" />
   </Svg>
 )

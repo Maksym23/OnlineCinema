@@ -1,5 +1,8 @@
+import { overviewFor } from '../data/overviews'
 import type { GenreKey, Lang, Media, MediaRow, MediaType } from '../types'
 import { TYPE_TO_SLUG } from '../lib/catalog'
+import { LOCAL_ASSETS } from '../data/assets'
+import { demoMeta } from '../data/details'
 
 /** [укр. назва, англ. назва, тип, жанри] — демо-каталог за макетами Starlicht */
 type Def = [uk: string, en: string, type: MediaType, genres: GenreKey[]]
@@ -145,6 +148,21 @@ const DEFS: Def[] = [
   ['Леді Баг і Супер-Кіт', 'Miraculous: Ladybug & Cat Noir', 'cartoon', ['animation', 'action']],
   ['Посіпаки і Монстрики', 'Minions & Monsters', 'cartoon', ['animation', 'comedy']],
   ['У чужій шкурі', 'Walking in Their Skin', 'cartoon', ['animation', 'comedy']],
+  ['Тиха нава', 'Quiet Wake', 'series', ['drama', 'thriller']],
+  ['Мій учитель-восьминіг', 'My Octopus Teacher', 'movie', ['documentary']],
+  ['Рафа', 'Rafa', 'series', ['documentary', 'sport']],
+  ['Війна очима тварин', 'Animals in War', 'movie', ['documentary', 'drama']],
+  ['Глибока вода', 'Deep Water', 'movie', ['thriller', 'horror']],
+  ['Стихії', 'Elemental', 'cartoon', ['animation', 'family']],
+  ['ВОЛЛ·І', 'WALL·E', 'cartoon', ['animation', 'family']],
+  ['Троя', 'Troy', 'movie', ['action', 'drama']],
+  ['Ясон та аргонавти', 'Jason and the Argonauts', 'movie', ['adventure', 'fantasy']],
+  ['Гладіатор 2', 'Gladiator II', 'movie', ['action', 'drama']],
+  ['Варяг', 'The Northman', 'movie', ['action', 'drama']],
+  ['Повстання', 'The Uprising', 'movie', ['drama', 'action']],
+  ['Відьмак', 'The Witcher', 'series', ['fantasy', 'action']],
+  ['Володар перснів: Персні Влади', 'The Lord of the Rings: The Rings of Power', 'series', ['fantasy', 'adventure']],
+  ['Рим', 'Rome', 'series', ['drama', 'action']],
 ]
 
 const BY_UK = new Map<string, number>(DEFS.map((d, i) => [d[0], i]))
@@ -156,8 +174,12 @@ function toMedia(i: number, lang: Lang): Media {
     type,
     title: lang === 'uk' ? uk : en,
     titleEn: en,
+    titleUk: uk,
     genres,
     hue: (i * 37 + 11) % 360,
+    ...demoMeta(i, type, genres, lang),
+    ...(overviewFor(uk, lang) ? { overview: overviewFor(uk, lang) } : {}),
+    ...LOCAL_ASSETS[uk],
   }
 }
 
@@ -245,6 +267,7 @@ const MOVIES: RowDef[] = [
   { key: 'docs', uk: 'Документальні фільми', en: 'Documentary films', titles: ['Документальний фільм про ШІ', 'RAFA', 'Моя учителька-восьминога', 'Динозаври', 'Аферист із Tinder'] },
   { key: 'horror', uk: 'Жахи', en: 'Horror', titles: ['Пізня ніч з дияволом', 'Тихе місце: Частина II', 'Кімната внизу', 'Катастрофа рейсу', 'Поховати диявола'] },
   { key: 'adventure', uk: 'Пригоди', en: 'Adventure', titles: ['Проєкт «Аве Марія»', 'Дюна: Частина друга', 'Місія нездійсненна: Розплата', 'Уявні друзі', 'Той, що біжить по лезу'] },
+  { key: 'epic', uk: 'Епічні історії', en: 'Epic stories', titles: ['Троя', 'Ясон та аргонавти', 'Гладіатор 2', 'Варяг', 'Повстання'] },
 ]
 
 const SERIES: RowDef[] = [
@@ -257,6 +280,7 @@ const SERIES: RowDef[] = [
   { key: 'docs', uk: 'Документальні серіали', en: 'Documentary series', titles: ['Наша планета', 'Останній танець', 'Король тигрів', 'Формула 1: Драйв, щоб вижити', 'Світ очима тварин'] },
   { key: 'horror', uk: 'Жахи', en: 'Horror', titles: ['Закулісся', 'Смерть Робіна Гуда', 'Дивні дива', 'Чорне дзеркало', 'Штам'] },
   { key: 'adventure', uk: 'Пригоди', en: 'Adventure', titles: ['Персі Джексон та Олімпійці', 'Ван-Піс', 'Мандалорець', 'Зоряний шлях: Дивовижні нові світи', 'Гра Престолів'] },
+  { key: 'epic', uk: 'Епічні серіали', en: 'Epic series', titles: ['Відьмак', 'Володар перснів: Персні Влади', 'Рим'] },
 ]
 
 const CARTOONS: RowDef[] = [
@@ -266,7 +290,7 @@ const CARTOONS: RowDef[] = [
   { key: 'ukrainian', uk: 'Українські мультфільми', en: 'Ukrainian cartoons', titles: ['Мавка. Лісова пісня', 'Викрадена принцеса', 'Микита Кожум’яка', 'Клара та чарівний дракон', 'Бабай'] },
   { key: 'english', uk: 'Мультфільми англійською мовою', en: 'English-language cartoons', titles: ['Bluey', 'Finding Nemo', 'Тачки', 'Toy Story', 'Inside Out'] },
   { key: 'multiseries', uk: 'Мультсеріали', en: 'Animated series', titles: ['Ґравіті Фолз', 'Час пригод', 'Голубоокий самурай', 'Совиний дім', 'Суперкрила'] },
-  { key: 'disney', uk: 'Чарівний світ Disney', en: 'The magical world of Disney', titles: ['Білосніжка та сім гномів', 'Русалонька', 'Аладдін', 'Мулан', 'Холодне серце'] },
+  { key: 'disney', uk: 'Чарівний світ Disney', en: 'The magical world of Disney', titles: ['Білосніжка та сім гномів', 'Русалонька', 'Аладдін', 'Мулан', 'Холодне серце', 'Стихії'] },
 ]
 
 export function homeRows(lang: Lang): MediaRow[] {

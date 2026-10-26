@@ -23,7 +23,8 @@ const RATES = [0.5, 0.75, 1, 1.25, 1.5, 2]
 
 interface Props {
   src: string
-  mediaId: string
+  /** без mediaId (напр. телеканал) прогрес в історію не записується */
+  mediaId?: string
   title: string
   poster?: string
   /** секунда, з якої продовжити перегляд */
@@ -58,7 +59,7 @@ export default function VideoPlayer({ src, mediaId, title, poster, startAt = 0 }
   /* ——— історія переглядів ——— */
   const saveProgress = useCallback(() => {
     const { position, duration: d } = lastPos.current
-    if (position >= 1 && d > 0) dispatch(recordProgress({ id: mediaId, position, duration: d }))
+    if (mediaId && position >= 1 && d > 0) dispatch(recordProgress({ id: mediaId, position, duration: d }))
   }, [dispatch, mediaId])
 
   useEffect(() => {

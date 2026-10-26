@@ -2,7 +2,10 @@ import { useMemo } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useAppSelector } from '../app/hooks'
 import { useCatalogRowsQuery } from '../api/baseApi'
-import Hero from '../components/Hero'
+import NewHero from '../components/NewHero'
+import CartoonHero from '../components/CartoonHero'
+import SpiderHero from '../components/SpiderHero'
+import KidsChannels from '../components/KidsChannels'
 import PosterCard from '../components/PosterCard'
 import { ErrorBox, RowsSkeleton } from '../components/QueryState'
 import Row from '../components/Row'
@@ -43,7 +46,7 @@ function CatalogInner({ slug, type }: { slug: string; type: 'movie' | 'series' |
 
   return (
     <>
-      <Hero />
+      {type === 'movie' ? <NewHero /> : type === 'series' ? <SpiderHero /> : <CartoonHero />}
       <div className="page-head">
         <h1>{title}</h1>
       </div>
@@ -61,6 +64,8 @@ function CatalogInner({ slug, type }: { slug: string; type: 'movie' | 'series' |
 
       {isLoading && <RowsSkeleton />}
       {isError && <ErrorBox onRetry={refetch} />}
+
+      {type === 'cartoon' && !genre && <KidsChannels />}
 
       {data && !genre && data.map((row) => <Row key={row.key} row={{ ...row, to: undefined }} />)}
 

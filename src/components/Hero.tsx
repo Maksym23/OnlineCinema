@@ -5,9 +5,9 @@ import { useT } from '../i18n'
 import { ChevronLeftIcon, ChevronRightIcon, PlayIcon, SparkleIcon } from './Icons'
 
 const SLIDES = [
-  { hue: 300, to: '/catalog/movies', cls: 'slide-a' },
-  { hue: 215, to: '/catalog/series', cls: 'slide-b' },
-  { hue: 175, to: '/catalog/cartoons', cls: 'slide-c' },
+  { hue: 300, to: '/movie/d12', cls: 'slide-a', odyssey: true },
+  { hue: 215, to: '/catalog/cartoons', cls: 'slide-b', image: 'cartoons.webp' },
+  { hue: 175, to: '/sport', cls: 'slide-c', image: 'sport.webp' },
 ]
 
 export default function Hero() {
@@ -42,7 +42,39 @@ export default function Hero() {
       onTouchStart={(e) => setTouchX(e.touches[0].clientX)}
       onTouchEnd={onTouchEnd}
     >
-      {SLIDES.map((s, i) => (
+      {SLIDES.map((s, i) =>
+        s.image ? (
+          <Link
+            key={s.cls}
+            to={s.to}
+            className={`slide slide-image${i === index ? ' active' : ''}`}
+            aria-hidden={i !== index}
+            tabIndex={i === index ? 0 : -1}
+          >
+            <img src={`${import.meta.env.BASE_URL}hero/${s.image}`} alt={`${t('hero.line1')} ${t('hero.line2')}`} />
+          </Link>
+        ) : s.odyssey ? (
+          <div
+            key={s.cls}
+            className={`slide slide-odyssey${i === index ? ' active' : ''}`}
+            aria-hidden={i !== index}
+          >
+            <img
+              className="odyssey-art"
+              src={`${import.meta.env.BASE_URL}hero/odyssey.webp`}
+              alt=""
+              fetchPriority="high"
+            />
+            <div className="odyssey-copy">
+              <span className="odyssey-tag">{t('hero.odysseyNew')}</span>
+              <h2 className="odyssey-title">{t('hero.odysseyTitle')}</h2>
+              <span className="odyssey-meta">18+ · 2026 · {t('genre.scifi')}</span>
+              <Link to={s.to} className="btn btn-white" tabIndex={i === index ? 0 : -1}>
+                {t('hero.cta2')}
+              </Link>
+            </div>
+          </div>
+        ) : (
         <div
           key={s.cls}
           className={`slide ${s.cls}${i === index ? ' active' : ''}`}
@@ -82,7 +114,8 @@ export default function Hero() {
             <li>{t('hero.tv')}</li>
           </ul>
         </div>
-      ))}
+        ),
+      )}
 
       <button type="button" className="hero-arrow left" onClick={() => go(index - 1)} aria-label={t('hero.prev')}>
         <ChevronLeftIcon />

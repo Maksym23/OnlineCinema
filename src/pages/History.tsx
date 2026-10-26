@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { useMediaListQuery } from '../api/baseApi'
+import { MediaArt } from '../components/Art'
 import { PlayIcon, TrashIcon } from '../components/Icons'
 import { ErrorBox, RowsSkeleton } from '../components/QueryState'
 import { clearHistory, removeFromHistory } from '../features/historySlice'
@@ -48,7 +49,7 @@ export default function History() {
           return (
             <li key={e.id} className="history-item">
               <Link to={`/movie/${m.id}`} className="history-thumb" style={artStyle(m.hue)} aria-hidden="true" tabIndex={-1}>
-                {m.poster ? <img src={m.poster} alt="" loading="lazy" /> : <span className="card-art-text">{m.title}</span>}
+                <MediaArt media={m} />
               </Link>
               <div className="history-info">
                 <Link to={`/movie/${m.id}`} className="history-title">

@@ -25,7 +25,9 @@ export default function News() {
           const expanded = open === n.id
           return (
             <article key={n.id} className="news-card">
-              <div className="news-art" style={artStyle(n.hue)} aria-hidden="true" />
+              <div className="news-art" style={artStyle(n.hue)} aria-hidden="true">
+                {n.image && <img src={n.image} alt="" loading="lazy" />}
+              </div>
               <div className="news-body">
                 <time dateTime={n.date} className="muted small">
                   {formatDate(n.date, lang)}

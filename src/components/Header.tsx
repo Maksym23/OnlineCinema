@@ -75,6 +75,12 @@ export default function Header() {
               </button>
               {moreOpen && (
                 <div className="more-menu" role="menu">
+                  <Link to="/tv" role="menuitem">
+                    {t('nav.tv')}
+                  </Link>
+                  <Link to="/sport" role="menuitem">
+                    {t('nav.sport')}
+                  </Link>
                   <Link to="/news" role="menuitem">
                     {t('nav.news')}
                   </Link>

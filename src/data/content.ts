@@ -90,39 +90,93 @@ const NEWS: NewsDef[] = [
 ]
 
 export function getNews(lang: Lang): NewsItem[] {
-  return NEWS.map((n) => ({ id: n.id, date: n.date, hue: n.hue, title: n[lang].title, text: n[lang].text }))
+  return NEWS.map((n) => ({
+    id: n.id,
+    date: n.date,
+    hue: n.hue,
+    title: n[lang].title,
+    text: n[lang].text,
+    image: `${import.meta.env.BASE_URL}news/${n.id}.webp`,
+  }))
 }
 
 interface PlanDef {
   id: string
   price: number
   popular?: boolean
-  uk: { name: string; features: string[] }
-  en: { name: string; features: string[] }
+  uk: { name: string; features: string[]; highlights: [string, string][] }
+  en: { name: string; features: string[]; highlights: [string, string][] }
 }
 
 const PLANS: PlanDef[] = [
   {
     id: 'basic',
-    price: 99,
-    uk: { name: 'Базовий', features: ['Каталог фільмів і серіалів', 'Якість HD', '1 пристрій', 'З рекламою'] },
-    en: { name: 'Basic', features: ['Movies and series catalogue', 'HD quality', '1 device', 'With ads'] },
+    price: 100,
+    uk: {
+      name: 'Стартова',
+      features: ['Каталог фільмів і серіалів', 'Якість HD', '1 пристрій', 'З рекламою'],
+      highlights: [['500+', 'Фільмів'], ['10 000+', 'Годин контенту']],
+    },
+    en: {
+      name: 'Starter',
+      features: ['Movies and series catalogue', 'HD quality', '1 device', 'With ads'],
+      highlights: [['500+', 'Movies'], ['10,000+', 'Hours of content']],
+    },
   },
   {
     id: 'standard',
-    price: 149,
+    price: 200,
     popular: true,
-    uk: { name: 'Стандарт', features: ['Усе з Базового', 'Без реклами', 'Full HD', '2 пристрої'] },
-    en: { name: 'Standard', features: ['Everything in Basic', 'No ads', 'Full HD', '2 devices'] },
+    uk: {
+      name: 'Оптимальна',
+      features: ['Усе зі Стартової', 'Без реклами', 'Full HD', '2 пристрої'],
+      highlights: [['1 000+', 'Фільмів і серіалів'], ['20 000+', 'Годин контенту']],
+    },
+    en: {
+      name: 'Optimal',
+      features: ['Everything in Starter', 'No ads', 'Full HD', '2 devices'],
+      highlights: [['1,000+', 'Movies and series'], ['20,000+', 'Hours of content']],
+    },
   },
   {
     id: 'premium',
-    price: 229,
-    uk: { name: 'Преміум', features: ['Усе зі Стандарту', 'Ultra HD 4K', 'До 5 пристроїв', 'Завантаження офлайн'] },
-    en: { name: 'Premium', features: ['Everything in Standard', 'Ultra HD 4K', 'Up to 5 devices', 'Offline downloads'] },
+    price: 400,
+    uk: {
+      name: 'Преміум',
+      features: ['Усе з Оптимальної', 'Ultra HD 4K', 'До 5 пристроїв', 'Завантаження офлайн'],
+      highlights: [['2 000+', 'Фільмів і серіалів'], ['50 000+', 'Годин контенту']],
+    },
+    en: {
+      name: 'Premium',
+      features: ['Everything in Optimal', 'Ultra HD 4K', 'Up to 5 devices', 'Offline downloads'],
+      highlights: [['2,000+', 'Movies and series'], ['50,000+', 'Hours of content']],
+    },
   },
 ]
 
 export function getPlans(lang: Lang): Plan[] {
-  return PLANS.map((p) => ({ id: p.id, price: p.price, popular: p.popular, name: p[lang].name, features: p[lang].features }))
+  return PLANS.map((p) => ({
+    id: p.id,
+    price: p.price,
+    popular: p.popular,
+    name: p[lang].name,
+    features: p[lang].features,
+    highlights: p[lang].highlights.map(([value, label]) => ({ value, label })),
+  }))
+}
+
+export interface Addon {
+  id: string
+  price: number
+  name: string
+}
+
+const ADDONS: { id: string; price: number; uk: string; en: string }[] = [
+  { id: 'kids', price: 90, uk: 'Дитяча', en: 'Kids' },
+  { id: 'adult', price: 70, uk: 'Доросла', en: 'Adult' },
+  { id: 'youtube', price: 70, uk: 'YouTube Premium', en: 'YouTube Premium' },
+]
+
+export function getAddons(lang: Lang): Addon[] {
+  return ADDONS.map((a) => ({ id: a.id, price: a.price, name: a[lang] }))
 }

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { baseApi } from '../api/baseApi'
 import auth, { SESSION_KEY } from '../features/authSlice'
+import channels, { channelFavKey } from '../features/channelsSlice'
 import favorites, { favKey } from '../features/favoritesSlice'
 import history, { historyKey } from '../features/historySlice'
 import ui, { UI_KEY } from '../features/uiSlice'
@@ -11,6 +12,7 @@ export const store = configureStore({
   reducer: {
     auth,
     favorites,
+    channels,
     history,
     ui,
     [baseApi.reducerPath]: baseApi.reducer,
@@ -30,6 +32,7 @@ store.subscribe(() => {
   if (s.auth.user !== prev.auth.user) save(SESSION_KEY, s.auth.user)
   if (s.auth.user) {
     if (s.favorites !== prev.favorites) save(favKey(s.auth.user.email), s.favorites.ids)
+    if (s.channels !== prev.channels) save(channelFavKey(s.auth.user.email), s.channels.favorites)
     if (s.history !== prev.history) save(historyKey(s.auth.user.email), s.history.items)
   }
   prev = s

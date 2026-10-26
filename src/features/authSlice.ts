@@ -57,7 +57,7 @@ export const confirmRegistration = createAsyncThunk<AuthUser, { email: string; c
 
 export const updateProfile = createAsyncThunk<
   AuthUser,
-  { email: string; name?: string; plan?: string | null },
+  { email: string; name?: string; plan?: string | null; phone?: string },
   Cfg
 >('auth/update', async ({ email, ...patch }, { rejectWithValue }) => {
   try {

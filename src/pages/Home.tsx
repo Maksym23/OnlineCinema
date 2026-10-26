@@ -39,6 +39,7 @@ export default function Home() {
                     className="genre-tile"
                     style={{ ['--h' as string]: g.hue }}
                   >
+                    <img src={`${import.meta.env.BASE_URL}genres/${g.key}.webp`} alt="" loading="lazy" />
                     <span>{t(`genre.${g.key}` as const)}</span>
                   </Link>
                 ))}

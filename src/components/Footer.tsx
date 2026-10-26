@@ -98,6 +98,7 @@ export default function Footer() {
         <p className="copyright">
           © {YEAR} STARLICHT. {t('footer.rights')}
         </p>
+        <p className="image-credits">{t('footer.imageCredits')}</p>
       </div>
     </footer>
   )
